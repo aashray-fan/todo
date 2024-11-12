@@ -38,7 +38,9 @@ describe('MyTasksList', () => {
   });
 
   it('should be able to render all tasks', () => {
-    const { getByText } = render(<TasksList tasks={tasks} removeTask={mockedRemoveTask} toggleTaskDone={mockedToggleTaskDone} />)
+    const { getByText } = render(<TasksList tasks={tasks} removeTask={mockedRemoveTask} toggleTaskDone={mockedToggleTaskDone} updateTaskName={function (id: number, newTaskName: string): void {
+      throw new Error('Function not implemented.');
+    } } />)
     
     getByText('Primeiro todo');
     getByText('Segundo todo');
@@ -46,7 +48,9 @@ describe('MyTasksList', () => {
   });
 
   it('should be able to handle "removeTask" event', () => {
-    const { getByTestId } = render(<TasksList tasks={tasks} removeTask={mockedRemoveTask} toggleTaskDone={mockedToggleTaskDone} />)
+    const { getByTestId } = render(<TasksList tasks={tasks} removeTask={mockedRemoveTask} toggleTaskDone={mockedToggleTaskDone} updateTaskName={function (id: number, newTaskName: string): void {
+      throw new Error('Function not implemented.');
+    } } />)
     const firstTaskTrashIcon = getByTestId('trash-0');
 
     fireEvent(firstTaskTrashIcon, 'press');
@@ -55,7 +59,9 @@ describe('MyTasksList', () => {
   });
 
   it('should be able to handle "toggleTaskDone" event', () => {    
-    const { getByText } = render(<TasksList tasks={tasks} removeTask={mockedRemoveTask} toggleTaskDone={mockedToggleTaskDone} />)
+    const { getByText } = render(<TasksList tasks={tasks} removeTask={mockedRemoveTask} toggleTaskDone={mockedToggleTaskDone} updateTaskName={function (id: number, newTaskName: string): void {
+      throw new Error('Function not implemented.');
+    } } />)
     const secondTask = getByText('Segundo todo');
 
     fireEvent.press(secondTask);

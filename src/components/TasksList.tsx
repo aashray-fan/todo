@@ -1,7 +1,7 @@
-import React from 'react'
-import { FlatList } from 'react-native'
-import { ItemWrapper } from './ItemWrapper'
-import { TaskItem } from './TaskItem'
+import React from "react";
+import { FlatList } from "react-native";
+import { ItemWrapper } from "./ItemWrapper";
+import { TaskItem } from "./TaskItem";
 
 export interface Task {
   id: number;
@@ -16,7 +16,12 @@ interface TasksListProps {
   updateTaskName: (id: number, newTaskName: string) => void;
 }
 
-export function TasksList({ tasks, toggleTaskDone, removeTask, updateTaskName }: TasksListProps) {
+export function TasksList({
+  tasks,
+  toggleTaskDone,
+  removeTask,
+  updateTaskName,
+}: TasksListProps) {
   return (
     <FlatList
       data={tasks}
@@ -34,11 +39,11 @@ export function TasksList({ tasks, toggleTaskDone, removeTask, updateTaskName }:
               updateTaskName={updateTaskName}
             />
           </ItemWrapper>
-        )
+        );
       }}
       style={{
-        marginTop: 32
+        marginTop: 32,
       }}
     />
-  )
+  );
 }

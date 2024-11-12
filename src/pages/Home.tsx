@@ -1,17 +1,30 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Alert, StyleSheet, View } from "react-native";
 
 import { Header } from "../components/Header";
 import { Task, TasksList } from "../components/TasksList";
 import { TodoInput } from "../components/TodoInput";
+import { logInfo } from "../logger";
+import { tracer } from "../tracer";
+import { meter } from "../matrics";
 
 export function Home() {
   const [tasks, setTasks] = useState<Task[]>([]);
+  const taskCounter = meter.createCounter('tasks_added', {
+    description: 'Counts the number of tasks added to the todo list',
+  });
+
+  useEffect(() => {
+    logInfo(JSON.stringify(tasks))
+  },[tasks])
 
   function handleAddTask(newTaskTitle: string) {
+    const span = tracer.startSpan('handleAddTask');
+    taskCounter.add(1);
+  
     const hasTaskWithThisName =
       tasks.findIndex((task) => task.title === newTaskTitle) > -1;
-
+  
     if (hasTaskWithThisName) {
       Alert.alert(
         "Task já cadastrada",
@@ -27,9 +40,13 @@ export function Home() {
         },
       ]);
     }
+  
+    span.end(); // End the span
   }
-
+  
   function handleToggleTaskDone(id: number) {
+    const span = tracer.startSpan('handleToggleTaskDone');
+  
     const newTasks = tasks.map((task) => {
       if (task.id === id) {
         return {
@@ -37,20 +54,26 @@ export function Home() {
           done: !task.done,
         };
       }
-
       return task;
     });
-
+  
     setTasks(newTasks);
+  
+    span.end();
   }
-
+  
   function handleRemoveTask(id: number) {
+    const span = tracer.startSpan('handleRemoveTask');
+  
     const newTasks = tasks.filter((task) => task.id !== id);
     setTasks(newTasks);
+  
+    span.end();
   }
-
+  
   function handleUpdateTaskName(id: number, newTaskName: string) {
-    // console.log(id, newTaskName)
+    const span = tracer.startSpan('handleUpdateTaskName');
+  
     const newTasks = tasks.map((task) => {
       if (task.id === id) {
         return {
@@ -58,11 +81,12 @@ export function Home() {
           title: newTaskName,
         };
       }
-
       return task;
     });
-    // console.log(newTasks, tasks)
+  
     setTasks(newTasks);
+  
+    span.end();
   }
 
   return (
@@ -83,8 +107,7 @@ export function Home() {
 
 const styles = StyleSheet.create({
   container: {
-    height:'100%',
-    width:'100%',
+    flex: 1,
     backgroundColor: "#EBEBEB",
   },
 });

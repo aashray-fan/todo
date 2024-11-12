@@ -1,21 +1,17 @@
-import React from 'react'
-import { SafeAreaView, StatusBar, StyleSheet } from 'react-native'
+import React from 'react';
+import { StatusBar } from 'react-native';
 
-import { Home } from './src/pages/Home'
-import { getStatusBarHeight } from 'react-native-iphone-x-helper'
+import { Home } from './src/pages/Home';
 
 export default function App() {
   return (
-    <SafeAreaView style={styles.mainContainer}>
-      <StatusBar barStyle="light-content" translucent backgroundColor="transparent" />
+    <>
+      <StatusBar 
+        barStyle="light-content" 
+        translucent 
+        backgroundColor="transparent" 
+      />
       <Home />
-    </SafeAreaView>
-  )
+    </>
+  );
 }
-
-const styles = StyleSheet.create({
-  mainContainer: {
-    backgroundColor: '#0267C1',
-    paddingTop: getStatusBarHeight()
-  }
-})
